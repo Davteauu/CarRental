@@ -1,21 +1,19 @@
-import { Component } from '@angular/core';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { Component, NgZone } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Router } from '@angular/router';
+import { NgZorroImportsModule } from '../../../NgZorroImportsModule';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
   imports: [
-    NzSpinModule,
-    NzFormModule,
-    NzButtonModule,
-    NzInputModule,
-    NzLayoutModule,
+    NgZorroImportsModule,
+    RouterLink,
+    RouterLinkActive,
     CommonModule,
     ReactiveFormsModule
   ],
@@ -26,7 +24,10 @@ export class SignupComponent {
   isSpinning: boolean = false;
   signupForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+    private authService: AuthService,
+    private message: NzMessageService,
+    private router: Router) { }
 
   ngOnInit() {
     this.signupForm = this.fb.group({
@@ -48,6 +49,15 @@ export class SignupComponent {
 
   register() {
     console.log(this.signupForm.value);
+    this.authService.register(this.signupForm.value).subscribe((res) => {
+      console.log(res);
+      if (res.id != null) {
+        this.message.success("Signup successful", { nzDuration: 5000 });
+        this.router.navigateByUrl("/login")
+      } else {
+        this.message.error("Something went wrong", { nzDuration: 5000 });
+      }
+    })
   }
 }
 

@@ -1,0 +1,7 @@
+﻿################################################################################
+# Ten plik .gitignore został utworzony automatycznie przez Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/car_rental_angular/.vs/slnx.sqlite
+/car_rental_angular/.vs/VSWorkspaceState.json
