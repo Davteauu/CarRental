@@ -24,7 +24,8 @@ export class LoginComponent {
   isSpinning: boolean = false;
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -34,5 +35,8 @@ export class LoginComponent {
   }
   login() {
     console.log(this.loginForm.value);
+    this.authService.login(this.loginForm.value).subscribe((res) => {
+      console.log(res);
+    })
   }
 }
