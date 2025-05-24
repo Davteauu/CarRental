@@ -1,24 +1,19 @@
 import { Component } from '@angular/core';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { RouterLink, RouterLinkActive} from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
+import { NgZorroImportsModule } from '../../../NgZorroImportsModule';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    NzSpinModule,
-    NzFormModule,
-    NzButtonModule,
-    NzInputModule,
-    NzLayoutModule,
+    RouterLink,
+    RouterLinkActive,
+    NgZorroImportsModule,
     CommonModule,
     ReactiveFormsModule
   ],
@@ -27,4 +22,17 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   isSpinning: boolean = false;
+  loginForm!: FormGroup;
+
+  constructor(private fb: FormBuilder) { }
+
+  ngOnInit() {
+    this.loginForm = this.fb.group({
+      email: [null, [Validators.email, Validators.required]],
+      password: [null, [Validators.required]]
+    })
+  }
+  login() {
+    console.log(this.loginForm.value);
+  }
 }
