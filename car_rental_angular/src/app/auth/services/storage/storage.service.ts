@@ -10,41 +10,61 @@ export class StorageService {
 
   constructor() { }
 
+  private static isBrowser(): boolean {
+    return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+  }
+
   static saveToken(token: string): void {
-    window.localStorage.removeItem(TOKEN);
-    window.localStorage.setItem(TOKEN, token);
+    if (this.isBrowser()) {
+      window.localStorage.removeItem(TOKEN);
+      window.localStorage.setItem(TOKEN, token);
+    }
   }
 
   static saveUser(user: any): void {
-    window.localStorage.removeItem(USER);
-    window.localStorage.setItem(USER, JSON.stringify(user));
+    if (this.isBrowser()) {
+      window.localStorage.removeItem(USER);
+      window.localStorage.setItem(USER, JSON.stringify(user));
+    }
   }
 
-  static getToken() {
-    return window.localStorage.getItem(TOKEN);
+  static getToken(): string | null {
+    if (this.isBrowser()) {
+      return window.localStorage.getItem(TOKEN);
+    }
+    return null;
   }
 
-  static getUser() {
-    const user = localStorage.getItem(USER);
-    return user ? JSON.parse(user) : null;
+  static getUser(): any {
+    if (this.isBrowser()) {
+      const user = window.localStorage.getItem(USER);
+      return user ? JSON.parse(user) : null;
+    }
+    return null;
   }
 
   static getUserRole(): string {
     const user = this.getUser();
-    if (user == null) return "";
-    return user.role;
+    return user?.role ?? "";
   }
 
-  static isAdminLoggedIn() {
-    if (this.getToken() == null) return false;
-    const role: string = this.getUserRole();
-    return role == "ADMIN";
+  static isAdminLoggedIn(): boolean {
+    const token = this.getToken();
+    const role = this.getUserRole();
+    return !!token && role === "ADMIN";
   }
 
-  static isCustomerLoggedIn() {
-    if (this.getToken() == null) return false;
-    const role: string = this.getUserRole();
-    return role == "CUSTOMER";
+  static isCustomerLoggedIn(): boolean {
+    const token = this.getToken();
+    const role = this.getUserRole();
+    return !!token && role === "CUSTOMER";
   }
 
+  static logout(): void {
+    if (this.isBrowser()) {
+      window.localStorage.removeItem(TOKEN);
+      window.localStorage.removeItem(USER);
+    }
+  }
 }
+
