@@ -1,13 +1,22 @@
 package com.projectjava.services.admin;
 
+import com.projectjava.dto.BookACarDto;
 import com.projectjava.dto.CarDto;
+import com.projectjava.dto.CarDtoListDto;
+import com.projectjava.dto.SearchCarDto;
+import com.projectjava.entity.BookACar;
 import com.projectjava.entity.Car;
+import com.projectjava.enums.BookCarStatus;
+import com.projectjava.repository.BookACarRepository;
 import com.projectjava.repository.CarRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,6 +25,8 @@ import java.util.stream.Collectors;
 public class AdminServiceImpl implements AdminService {
 
     private final CarRepository carRepository;
+
+    private final BookACarRepository bookACarRepository;
 
     @Override
     public boolean postCar(CarDto carDto) {
@@ -80,5 +91,49 @@ public class AdminServiceImpl implements AdminService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public List<BookACarDto> getBookings() {
+        return bookACarRepository.findAll().stream().map(BookACar::getBookACarDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean changeBookingStatus(Long bookingId, String status) {
+        Optional<BookACar> optionalBookACar = bookACarRepository.findById(bookingId);
+        if(optionalBookACar.isPresent()){
+            BookACar existingBookACar = optionalBookACar.get();
+            if(Objects.equals(status, "Approve")){
+                existingBookACar.setBookCarStatus((BookCarStatus.APPROVED));
+            }
+            else{
+                existingBookACar.setBookCarStatus((BookCarStatus.REJECTED));
+                bookACarRepository.save(existingBookACar);
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    @Override
+    public CarDtoListDto searchCar(SearchCarDto searchCarDto){
+        Car car = new Car();
+        car.setBrand(searchCarDto.getBrand());
+        car.setType(searchCarDto.getType());
+        car.setTransmission(searchCarDto.getTransmission());
+        car.setColor(searchCarDto.getColor());
+        ExampleMatcher exampleMatcher =
+                ExampleMatcher.matching()
+                    .withMatcher("brand", ExampleMatcher.GenericPropertyMatchers.ignoreCase())
+                    .withMatcher("type", ExampleMatcher.GenericPropertyMatchers.ignoreCase())
+                    .withMatcher("transmission", ExampleMatcher.GenericPropertyMatchers.ignoreCase())
+                    .withMatcher("color", ExampleMatcher.GenericPropertyMatchers.ignoreCase());
+        Example<Car> carExample = Example.of(car, exampleMatcher);
+        List<Car> carList = carRepository.findAll(carExample);
+        CarDtoListDto carDtoListDto = new CarDtoListDto();
+        carDtoListDto.setCarDtoList(carList.stream().map(Car::getCarDto).collect(Collectors.toList()));
+        return carDtoListDto;
+
     }
 }

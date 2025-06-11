@@ -11,7 +11,7 @@ import { NzMessageComponent, NzMessageService } from 'ng-zorro-antd/message';
   selector: 'app-update-car',
   imports: [
     NzOptionComponent,
-    NgZorroImportsModule,  
+    NgZorroImportsModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule
@@ -29,7 +29,7 @@ export class UpdateCarComponent {
   existingImage: string | null = null;
   updateForm!: FormGroup;
   listOfOption: Array<{label:string;value:string}> = [];
-  listOfBrands = ['Toyota','Volkswagen','Ford','Honda','Chevrolet','Mercedes-Benz','BMW','Hyundai','Nissan','Kia','Audi','Lexus','Mazda','Renault','Peugeot','Subaru','Volvo','Fiat','Skoda','Tesla'];;
+  listOfBrands = ['Toyota','Volkswagen','Ford','Honda','Chevrolet','Mercedes-Benz','BMW','Hyundai','Nissan','Kia','Audi','Lexus','Mazda','Renault','Peugeot','Subaru','Volvo','Fiat','Skoda','Tesla'];
   listOfType = ["Petrol","Hybrid","Diesel","Electric","CNG"];
   listOfColor = ["Red", "White","Black","Blue","Green", "Orange", "Gray","Silver"];
   listOfTransmission = ["Manual","Automatic"];
@@ -42,7 +42,7 @@ export class UpdateCarComponent {
     private router:Router) {}
 
   ngOnInit() {
-    
+
     this.carId = +this.activatedRoute.snapshot.params['id'];
     this.updateForm = this.fb.group({
       name: [null,Validators.required],
@@ -63,7 +63,7 @@ export class UpdateCarComponent {
       this.isSpinning=false;
       const carDto = res;
       this.existingImage = "data:image/jpeg;base64," + res.returnedImage;
-      this.updateForm.patchValue(carDto); 
+      this.updateForm.patchValue(carDto);
     });
   }
 

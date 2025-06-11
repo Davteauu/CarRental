@@ -17,7 +17,28 @@ export class CustomerService {
         headers: this.createAuthorizationHeader()
       });
   }
+  getCarById(carId: number): Observable<any> {
+    return this.http.get(BASIC_URL + "/api/customer/car/" +carId , {
+      headers: this.createAuthorizationHeader()
+    });
+  }
 
+  bookCar(bookACarDto: any): Observable<any> {
+    return this.http.post(BASIC_URL + "/api/customer/car/book/" +bookACarDto, {
+      headers: this.createAuthorizationHeader()
+    });
+  }
+
+  getBookingByUserId(): Observable<any> {
+    return this.http.get(BASIC_URL + "/api/customer/car/bookings/" + StorageService.getUserId() , {
+      headers: this.createAuthorizationHeader()
+    });
+  }
+  searchCar(searchCarDto: any): Observable<any> {
+    return this.http.post(BASIC_URL + "/api/customer/car/search", searchCarDto, {
+      headers: this.createAuthorizationHeader()
+    });
+  }
 
   createAuthorizationHeader(): HttpHeaders {
       let authheaders: HttpHeaders = new HttpHeaders();

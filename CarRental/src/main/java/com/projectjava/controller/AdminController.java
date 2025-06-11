@@ -1,12 +1,16 @@
 package com.projectjava.controller;
 
+import com.projectjava.dto.BookACarDto;
 import com.projectjava.dto.CarDto;
+import com.projectjava.dto.SearchCarDto;
 import com.projectjava.services.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -52,6 +56,23 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
+
+    @GetMapping("/car/bookings")
+    private ResponseEntity<List<BookACarDto>> getBookings() {
+        return ResponseEntity.ok(adminService.getBookings());
+    }
+
+    @GetMapping("/car/booking/{bookingId}/{status}")
+    public ResponseEntity<?> changeBookingStatus(@PathVariable Long bookingId, @PathVariable String status) {
+        boolean success = adminService.changeBookingStatus(bookingId, status);
+        if(success) return ResponseEntity.ok().build();
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/car/search")
+    public ResponseEntity<?> searchCar(@RequestParam SearchCarDto searchCarDto) {
+        return ResponseEntity.ok(adminService.searchCar(searchCarDto));
     }
 
 }
