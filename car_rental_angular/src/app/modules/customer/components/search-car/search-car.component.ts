@@ -1,10 +1,20 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
 import {AdminService} from '../../../admin/service/admin.service';
+import { CustomerService } from '../../service/customer.service';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NzOptionComponent } from 'ng-zorro-antd/select';
+import { NgZorroImportsModule } from '../../../../NgZorroImportsModule';
+import { CommonModule } from '@angular/common';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-search-car',
-  imports: [],
+  imports: [
+    NzOptionComponent,
+    NgZorroImportsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule],
   templateUrl: './search-car.component.html',
   styleUrl: './search-car.component.scss'
 })
@@ -19,7 +29,7 @@ export class SearchCarComponent {
   cars: any = [];
 
   constructor(private fb: FormBuilder,
-              private service: AdminService) {
+    private service: CustomerService) {
     this.searchCarForm = this.fb.group({
       brand:[null],
       type:[null],
@@ -31,7 +41,8 @@ export class SearchCarComponent {
   searchCar(){
     this.isSpinning = true;
     console.log(this.searchCarForm.value);
-    this.service.searchCar(this.searchCarForm.value).subscribe((res)=>{
+    this.service.searchCar(this.searchCarForm.value).subscribe((res) => {
+      this.cars = [];
       res.carDtoList.forEach((element:any)=>{
         element.processedImg = 'data:image/jpeg;base64,' + element.returnedImage;
         this.cars.push(element)

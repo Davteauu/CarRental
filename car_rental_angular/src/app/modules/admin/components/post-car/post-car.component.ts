@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-post-car',
   imports: [
     NzOptionComponent,
-    NgZorroImportsModule,  
+    NgZorroImportsModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule
@@ -30,7 +30,7 @@ export class PostCarComponent {
   selectedFile: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
   listOfOption: Array<{label:string;value:string}> = [];
-  listOfBrands = ['Toyota','Volkswagen','Ford','Honda','Chevrolet','Mercedes-Benz','BMW','Hyundai','Nissan','Kia','Audi','Lexus','Mazda','Renault','Peugeot','Subaru','Volvo','Fiat','Skoda','Tesla'];;
+  listOfBrands = ['Toyota','Volkswagen','Ford','Honda','Chevrolet','Mercedes-Benz','BMW','Hyundai','Nissan','Kia','Audi','Lexus','Mazda','Renault','Peugeot','Subaru','Volvo','Fiat','Skoda','Tesla'];
   listOfType = ["Petrol","Hybrid","Diesel","Electric","CNG"];
   listOfColor = ["Red", "White","Black","Blue","Green", "Orange", "Gray","Silver"];
   listOfTransmission = ["Manual","Automatic"];

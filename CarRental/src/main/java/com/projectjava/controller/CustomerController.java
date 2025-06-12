@@ -46,7 +46,7 @@ public class CustomerController {
     }
 
     @PostMapping("/car/search")
-    public ResponseEntity<?> searchCar(@RequestParam SearchCarDto searchCarDto) {
+    public ResponseEntity<?> searchCar(@RequestBody SearchCarDto searchCarDto) {
         return ResponseEntity.ok(customerService.searchCar(searchCarDto));
     }
 

@@ -124,7 +124,7 @@ public class AdminServiceImpl implements AdminService {
         car.setTransmission(searchCarDto.getTransmission());
         car.setColor(searchCarDto.getColor());
         ExampleMatcher exampleMatcher =
-                ExampleMatcher.matching()
+                ExampleMatcher.matchingAll()
                     .withMatcher("brand", ExampleMatcher.GenericPropertyMatchers.ignoreCase())
                     .withMatcher("type", ExampleMatcher.GenericPropertyMatchers.ignoreCase())
                     .withMatcher("transmission", ExampleMatcher.GenericPropertyMatchers.ignoreCase())

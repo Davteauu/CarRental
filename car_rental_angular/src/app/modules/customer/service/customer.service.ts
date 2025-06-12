@@ -23,7 +23,7 @@ export class CustomerService {
     });
   }
 
-  bookCar(bookACarDto: any): Observable<any> {
+  bookACar(bookACarDto: any): Observable<any> {
     return this.http.post(BASIC_URL + "/api/customer/car/book/" +bookACarDto, {
       headers: this.createAuthorizationHeader()
     });

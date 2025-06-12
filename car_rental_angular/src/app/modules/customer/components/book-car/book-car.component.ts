@@ -1,23 +1,35 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {CustomerService} from '../../service/customer.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StorageService} from '../../../../auth/services/storage/storage.service';
-import {NzMessageService} from 'ng-zorro-antd/message';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NzOptionComponent } from 'ng-zorro-antd/select';
+import { NgZorroImportsModule } from '../../../../NgZorroImportsModule';
+import { CommonModule } from '@angular/common';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 @Component({
   selector: 'app-book-car',
+  imports: [
+    NzDatePickerModule,
+    RouterModule,
+    NzOptionComponent,
+    NgZorroImportsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule],
   templateUrl: './book-car.component.html',
   styleUrls: ['./book-car.component.scss']
 })
 export class BookCarComponent {
-
-  carId: number = this.activatedRoute.snapshot.params["id"];
+  carId!: number;
   car: any;
   processedImage: any;
   validateForm!: FormGroup;
   isSpinning = false;
-  dateFormat: "DD-MM-YYYY"
+  dateFormat: string = "DD-MM-YYYY";
 
   constructor(
     private service: CustomerService,
@@ -26,9 +38,11 @@ export class BookCarComponent {
     private message: NzMessageService,
     private router: Router
   ) {
+
   }
 
   ngOnInit() {
+    this.carId =+ this.activatedRoute.snapshot.params["id"];
     this.validateForm = this.fb.group({
       toDate: [null, Validators.required],
       fromDate: [null, Validators.required],
@@ -48,10 +62,10 @@ export class BookCarComponent {
     let bookACarDto = {
       toDate: data.toDate,
       fromDate:data.fromDate,
-      userId: StorageService.getUserId()
+      userId: StorageService.getUserId(),
       carId: this.carId
     }
-    this.service.bookCar(bookACarDto).subscribe((res)=> {
+    this.service.bookACar(bookACarDto).subscribe((res)=> {
       console.log(res);
       this.message.success("Booking request submitted successfully", {nzDuration: 5000});
       this.router.navigateByUrl("/customer/dashboard");

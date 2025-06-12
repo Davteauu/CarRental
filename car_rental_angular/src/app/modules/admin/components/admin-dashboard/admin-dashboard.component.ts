@@ -42,7 +42,7 @@ export class AdminDashboardComponent {
 
   deleteCar(id:number){
     console.log(id);
-    this.adminService.deleteCar(id).subscribe((res) =>{
+    this.adminService.deleteCar(id).subscribe((res ) =>{
       this.getAllCars();
       this.message.success("Car deleted succesfully",{nzDuration: 5000});
     })

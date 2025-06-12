@@ -7,7 +7,7 @@
             <nz-form-label nzFor="gender">Brand</nz-form-label>
             <nz-form-control nzErrorTip="This Input Is Required!">
               <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Brand" formControlName="brand">
-                <nz-option *ngFor="let brand of listofBrands" nzLabel="{{brand}}" nzValue="{ {brand}}">
+                <nz-option *ngFor="let brand of listOfBrands" nzLabel="{{brand}}" nzValue="{{brand}}">
                 </nz-option>
               </nz-select>
             </nz-form-control>
@@ -17,7 +17,7 @@
             <nz-form-label nzFor="studentClass">Type</nz-form-label>
             <nz-form-control nzErrorTip="This Input Is Required!">
               <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Type" formControlName="type">
-                <nz-option *ngFor="let type of listofType" nzLabel="{{type}}" nzValue="{ {type}}">
+                <nz-option *ngFor="let type of listOfType" nzLabel="{{type}}" nzValue="{{type}}">
                 </nz-option>
               </nz-select>
             </nz-form-control>
@@ -27,7 +27,7 @@
             <nz-form-label nzFor="gender">Color</nz-form-label>
             <nz-form-control nzErrorTip="This Input Is Required!">
               <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Color" formControlName="color">
-                <nz-option *ngFor="let color of listofColor" nzLabel="{{color}}" nzValue="{ {color}}">
+                <nz-option *ngFor="let color of listOfColor" nzLabel="{{color}}" nzValue="{{color}}">s
                 </nz-option>
               </nz-select>
             </nz-form-control>
@@ -37,7 +37,7 @@
             <nz-form-label nzFor="studentClass">Transmission</nz-form-label>
             <nz-form-control nzErrorTip="This Input Is Required!">
               <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Transmission" formControlName="transmission">
-                <nz-option *ngFor="let transmission of listofTransmission" nzLabel="{{transmission}}"
+                <nz-option *ngFor="let transmission of listOfTransmission" nzLabel="{{transmission}}"
                            nzValue="{ {transmission}}">
                 </nz-option>
               </nz-select>

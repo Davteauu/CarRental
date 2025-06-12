@@ -24,7 +24,7 @@ public class CarDto {
 
     private Long price;
 
-    private Date year;
+    private String year;
 
     private MultipartFile image;
 

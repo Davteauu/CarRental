@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AdminService} from '../../service/admin.service';
 import {NzOptionComponent} from 'ng-zorro-antd/select';
 import {NgZorroImportsModule} from '../../../../NgZorroImportsModule';
 import {CommonModule} from '@angular/common';
+import { NzMessageService } from 'ng-zorro-antd/message';
+
 
 @Component({
-  selector: 'app-post-car',
+  selector: 'app-search-car',
   imports: [
     NzOptionComponent,
     NgZorroImportsModule,
@@ -14,8 +16,8 @@ import {CommonModule} from '@angular/common';
     ReactiveFormsModule,
     CommonModule
   ],
-  templateUrl: './post-car.component.html',
-  styleUrl: './post-car.component.scss'
+  templateUrl: './search-car.component.html',
+  styleUrl: './search-car.component.scss'
 })
 export class SearchCarComponent {
 
@@ -41,7 +43,8 @@ export class SearchCarComponent {
   searchCar(){
     this.isSpinning = true;
     console.log(this.searchCarForm.value);
-    this.service.searchCar(this.searchCarForm.value).subscribe((res)=>{
+    this.service.searchCar(this.searchCarForm.value).subscribe((res) => {
+      this.cars = [];
       res.carDtoList.forEach((element:any)=>{
         element.processedImg = 'data:image/jpeg;base64,' + element.returnedImage;
         this.cars.push(element)
